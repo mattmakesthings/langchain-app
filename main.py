@@ -5,9 +5,11 @@ from flask_pydantic import validate
 from serializers.query import QueryModel, QueryResponseModel
 from serializers.market_research import MarketResearchModel
 from serializers.social_media_assistant import SocialMediaAssistantModel, SocialMediaAssistantResponse
+from serializers.instagram_post import InstagramPostModel
 
 from controllers.model_query import ModelQueryController
 from controllers.image_variation import ImageVariationController
+from controllers.post_to_instagram import InstagramController
 
 
 load_dotenv()
@@ -42,6 +44,21 @@ def social_media(query: SocialMediaAssistantModel):
         response=result,
         images = images,
     ).json()
+
+@app.route("/instagram", methods=["POST"])
+@validate()
+def instagram_post(body: InstagramPostModel):
+    ig_controller = InstagramController(
+        username=body.username,
+        password=body.password,
+    )
+
+    return ig_controller.make_post(
+        url=body.image_url,
+        caption=body.caption,
+    )
+
+    
 
 if __name__ == "__main__":
     app.run(host="localhost", port=3000, debug=True)
