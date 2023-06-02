@@ -1,30 +1,16 @@
-from instabot import Bot
-import urllib.request
-import tempfile
+from instagrapi import Client
 
 class InstagramController:
-    def __init__(self, username, password):
-        self.bot = Bot()
+    def __init__(self, username, password, verification_code=""):
+        self.bot = Client()
         self.bot.login(
             username=username,
-            password=password
-        )
+            password=password,
+            verification_code=verification_code
+        )    
 
-    def download_photo(self, image_url) -> tempfile:
-        temp_file = tempfile.NamedTemporaryFile(delete=False)
-        try:
-            # Download the image from the URL
-            urllib.request.urlretrieve(image_url, temp_file.name)
-            print("Image downloaded successfully to:", temp_file.name)
-        except Exception as e:
-            print("Error occurred while downloading the image:", str(e))
-
-        return temp_file
-    
-
-    def make_post(self, url,  caption):
-            temp_file = self.download_photo(url)
-            return self.bot.upload_photo(
-                temp_file.name, 
+    def make_post(self, file_paths,  caption):
+            return self.bot.album_upload(
+                file_paths, 
                 caption=caption
             )

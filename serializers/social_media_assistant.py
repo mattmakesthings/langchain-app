@@ -4,9 +4,11 @@ from pydantic import (
 
 from typing import Optional
 
-class SocialMediaAssistantModel(BaseModel):
+class SocialMediaPromptModel(BaseModel):
     product_description: str
 
-class SocialMediaAssistantResponse(BaseModel):
+class SocialMediaCaptionResponse(BaseModel):
     response: str
+
+class SocialMediaImageResponse(BaseModel):
     images: Optional[list[str]] = None
