@@ -13,7 +13,7 @@ class ImageUpload(BaseModel):
             raise ValueError(f"File size exceeds the maximum limit of {max_size_mb}MB")
 
         # Check file type
-        if not file.startswith(b'\x89PNG\r\n\x1a\n'):
+        if not file.startswith(b'\x89PNG'):
             raise ValueError("Invalid file type. Only PNG files are allowed.")
 
         return file

@@ -17,6 +17,12 @@ from controllers.utils import download_photos, delete_photos, convert_to_jpgs
 load_dotenv()
 app = Flask(__name__)
 
+@app.before_request
+def log_request_info():
+    app.logger.debug('Url : %s', request.url )
+    app.logger.debug('Headers: %s', request.headers)
+    # app.logger.debug('Body: %s', request.get_data())
+
 mqc = ModelQueryController()
 ivc = ImageGenerationController()
 
@@ -55,8 +61,8 @@ def generate_image(query: SocialMediaPromptModel):
 
 @app.route("/social_media/image_variations", methods=["POST"])
 def generate_variations():
-    png = ImageUpload(file=request.data)
-    images = ivc.generate_variations(png.file)
+    # png = ImageUpload(file=request.form['file'].encode('latin1'))
+    images = ivc.generate_variations(request.data.decode('utf-8').encode('latin1'))
     return SocialMediaImageResponse(
         images = images,
     ).json()

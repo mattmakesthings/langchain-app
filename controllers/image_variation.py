@@ -14,9 +14,9 @@ class ImageGenerationController:
         image_url = response['data'][0]['url']
         return [image_url]
     
-    def generate_variations(self, filename, n=3):
+    def generate_variations(self, file, n=3):
         response = openai.Image.create_variation(
-            image=filename,
+            image=file,
             n=n,
         )
         image_urls = []
