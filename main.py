@@ -17,10 +17,10 @@ from controllers.utils import download_photos, delete_photos, convert_to_jpgs
 load_dotenv()
 app = Flask(__name__)
 
-# @app.before_request
-# def log_request_info():
-#     app.logger.debug('Url : %s', request.url )
-#     app.logger.debug('Headers: %s', request.headers)
+@app.before_request
+def log_request_info():
+    app.logger.debug('Url : %s', request.url )
+    app.logger.debug('Headers: %s', request.headers)
     # app.logger.debug('Body: %s', request.get_data())
 
 mqc = ModelQueryController()
